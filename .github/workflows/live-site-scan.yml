@@ -9,7 +9,7 @@
 {"uses": "actions/checkout@v4"},
 {"uses": "actions/setup-python@v5", "with": {"python-version": "3.12"}},
 {"name": "Wait for deploy", "if": "github.event_name == 'push'", "run": "sleep 120"},
-{"name": "Crawl and scan the live site", "shell": "bash", "env": {"SITE_URL": "${{ vars.SITE_URL }}"}, "run": "if [ -z \"$SITE_URL\" ]; then echo 'SITE_URL repository variable is not set'; exit 2; fi\npython scripts/scan_site.py \"$SITE_URL\" | tee scan-report.txt"},
+{"name": "Crawl and scan the live site", "shell": "bash", "env": {"SITE_URL": "${{ vars.SITE_URL }}"}, "run": "if [ -z \"$SITE_URL\" ]; then echo 'SITE_URL repository variable is not set'; exit 2; fi\npython scan_site.py \"$SITE_URL\" | tee scan-report.txt"},
 {"name": "Save report", "if": "always()", "uses": "actions/upload-artifact@v4", "with": {"name": "scan-report", "path": "scan-report.txt"}}
 ]
 }
